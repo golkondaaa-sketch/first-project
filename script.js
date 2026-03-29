@@ -80,3 +80,27 @@
   initReveal();
   initHeroCursorTrail();
 })();
+
+// ===================== SLIDER =====================
+(function () {
+  const track   = document.getElementById('sliderTrack');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const dots    = document.querySelectorAll('.dot');
+  const total   = document.querySelectorAll('.slide').length;
+  let current   = 0;
+
+  function goTo(index) {
+    current = (index + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  dots.forEach(dot => {
+    dot.addEventListener('click', () => goTo(Number(dot.dataset.index)));
+  });
+})();
+// ===================== /SLIDER =====================
