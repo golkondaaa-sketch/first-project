@@ -104,3 +104,84 @@
   });
 })();
 // ===================== /SLIDER =====================
+
+// ===================== HOTDOG DRAGGABLE =====================
+(function () {
+  var el = document.getElementById('hotdogEmoji');
+  if (!el) return;
+
+  var isDragging = false;
+  var startX, startY, originLeft, originTop;
+
+  // Инициализация позиции через left/top (fixed)
+  el.style.left = '16px';
+  el.style.top  = '16px';
+
+  /* ——— Мышь ——— */
+  el.addEventListener('mousedown', function (e) {
+    e.preventDefault();
+    isDragging = true;
+    el.classList.add('dragging');
+
+    var rect = el.getBoundingClientRect();
+    startX     = e.clientX;
+    startY     = e.clientY;
+    originLeft = rect.left;
+    originTop  = rect.top;
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup',   onMouseUp);
+  });
+
+  function onMouseMove(e) {
+    if (!isDragging) return;
+    var dx = e.clientX - startX;
+    var dy = e.clientY - startY;
+    move(originLeft + dx, originTop + dy);
+  }
+
+  function onMouseUp() {
+    isDragging = false;
+    el.classList.remove('dragging');
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup',   onMouseUp);
+  }
+
+  /* ——— Тач (мобильные) ——— */
+  el.addEventListener('touchstart', function (e) {
+    var touch = e.touches[0];
+    isDragging = true;
+    el.classList.add('dragging');
+
+    var rect = el.getBoundingClientRect();
+    startX     = touch.clientX;
+    startY     = touch.clientY;
+    originLeft = rect.left;
+    originTop  = rect.top;
+  }, { passive: true });
+
+  el.addEventListener('touchmove', function (e) {
+    if (!isDragging) return;
+    e.preventDefault();
+    var touch = e.touches[0];
+    var dx = touch.clientX - startX;
+    var dy = touch.clientY - startY;
+    move(originLeft + dx, originTop + dy);
+  }, { passive: false });
+
+  el.addEventListener('touchend', function () {
+    isDragging = false;
+    el.classList.remove('dragging');
+  });
+
+  /* ——— Общая функция перемещения с ограничением по экрану ——— */
+  function move(x, y) {
+    var maxX = window.innerWidth  - el.offsetWidth;
+    var maxY = window.innerHeight - el.offsetHeight;
+    x = Math.max(0, Math.min(x, maxX));
+    y = Math.max(0, Math.min(y, maxY));
+    el.style.left = x + 'px';
+    el.style.top  = y + 'px';
+  }
+})();
+// ===================== /HOTDOG DRAGGABLE =====================
