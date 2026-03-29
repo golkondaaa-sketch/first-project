@@ -132,32 +132,32 @@
         <h2 class="footer-title">Почему именно мы?</h2>
 
         <!-- SLIDER: лучшие работы -->
-        <div class="slider-wrapper">
-          <div class="slider-track" id="sliderTrack">
+        <div class="slider-outer">
 
-            <div class="slide">
-              <!-- Замените src на путь к своей фотографии -->
-              <img src="photo1.jpg" alt="Лучшая работа 1">
+          <button class="slider-btn slider-btn--prev" id="prevBtn" aria-label="Предыдущий слайд">◀️</button>
+
+          <div class="slider-wrapper">
+            <div class="slider-track" id="sliderTrack">
+              <div class="slide">
+                <img src="photo1.jpg" alt="Лучшая работа 1">
+              </div>
+              <div class="slide">
+                <img src="photo2.jpg" alt="Лучшая работа 2">
+              </div>
+              <div class="slide">
+                <img src="photo3.jpg" alt="Лучшая работа 3">
+              </div>
             </div>
 
-            <div class="slide">
-              <img src="photo2.jpg" alt="Лучшая работа 2">
+            <div class="slider-dots">
+              <span class="dot active" data-index="0"></span>
+              <span class="dot" data-index="1"></span>
+              <span class="dot" data-index="2"></span>
             </div>
-
-            <div class="slide">
-              <img src="photo3.jpg" alt="Лучшая работа 3">
-            </div>
-
           </div>
 
-          <button class="slider-btn slider-btn--prev" id="prevBtn" aria-label="Предыдущий слайд">&#8592;</button>
-          <button class="slider-btn slider-btn--next" id="nextBtn" aria-label="Следующий слайд">&#8594;</button>
+          <button class="slider-btn slider-btn--next" id="nextBtn" aria-label="Следующий слайд">▶️</button>
 
-          <div class="slider-dots">
-            <span class="dot active" data-index="0"></span>
-            <span class="dot" data-index="1"></span>
-            <span class="dot" data-index="2"></span>
-          </div>
         </div>
         <!-- /SLIDER -->
 
