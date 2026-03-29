@@ -604,20 +604,15 @@ a:hover {
   -webkit-user-select: none;
   z-index: 9999;
   touch-action: none;
-  transition: filter 0.15s ease, transform 0.15s ease;
-  will-change: left, top;
 }
 
 #hotdogEmoji:hover {
   filter: drop-shadow(0 4px 12px rgba(192, 0, 26, 0.45));
-  transform: scale(1.08);
 }
 
 #hotdogEmoji.dragging {
   cursor: grabbing;
-  transform: scale(1.14) rotate(-6deg);
   filter: drop-shadow(0 8px 24px rgba(192, 0, 26, 0.55));
-  transition: none;
 }
 
 /* ===================== /HOTDOG DRAGGABLE ===================== */

@@ -106,74 +106,63 @@
 // ===================== /SLIDER =====================
 
 // ===================== HOTDOG DRAGGABLE =====================
-(function () {
+document.addEventListener('DOMContentLoaded', function () {
   var el = document.getElementById('hotdogEmoji');
   if (!el) return;
 
-  // Смещение курсора внутри элемента в момент захвата
   var offsetX = 0;
   var offsetY = 0;
+  var active  = false;
+
+  /* ——— начало перетаскивания ——— */
+  function startDrag(clientX, clientY) {
+    var rect = el.getBoundingClientRect();
+    offsetX = clientX - rect.left;
+    offsetY = clientY - rect.top;
+    active  = true;
+    el.classList.add('dragging');
+  }
+
+  /* ——— движение ——— */
+  function duringDrag(clientX, clientY) {
+    if (!active) return;
+    var x = clientX - offsetX;
+    var y = clientY - offsetY;
+    var maxX = window.innerWidth  - el.offsetWidth;
+    var maxY = window.innerHeight - el.offsetHeight;
+    el.style.left = Math.max(0, Math.min(x, maxX)) + 'px';
+    el.style.top  = Math.max(0, Math.min(y, maxY)) + 'px';
+  }
+
+  /* ——— конец перетаскивания ——— */
+  function endDrag() {
+    active = false;
+    el.classList.remove('dragging');
+  }
 
   /* ——— Мышь ——— */
   el.addEventListener('mousedown', function (e) {
     e.preventDefault();
-
-    // Текущая позиция элемента
-    var rect = el.getBoundingClientRect();
-
-    // Смещение точки клика относительно левого верхнего угла элемента
-    offsetX = e.clientX - rect.left;
-    offsetY = e.clientY - rect.top;
-
-    el.classList.add('dragging');
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+    startDrag(e.clientX, e.clientY);
   });
 
-  function onMouseMove(e) {
-    var x = e.clientX - offsetX;
-    var y = e.clientY - offsetY;
-    moveTo(x, y);
-  }
+  document.addEventListener('mousemove', function (e) {
+    duringDrag(e.clientX, e.clientY);
+  });
 
-  function onMouseUp() {
-    el.classList.remove('dragging');
-    document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup', onMouseUp);
-  }
+  document.addEventListener('mouseup', endDrag);
 
-  /* ——— Тач (мобильные) ——— */
+  /* ——— Тач ——— */
   el.addEventListener('touchstart', function (e) {
-    var touch = e.touches[0];
-    var rect = el.getBoundingClientRect();
-
-    offsetX = touch.clientX - rect.left;
-    offsetY = touch.clientY - rect.top;
-
-    el.classList.add('dragging');
+    startDrag(e.touches[0].clientX, e.touches[0].clientY);
   }, { passive: true });
 
-  el.addEventListener('touchmove', function (e) {
+  document.addEventListener('touchmove', function (e) {
+    if (!active) return;
     e.preventDefault();
-    var touch = e.touches[0];
-    var x = touch.clientX - offsetX;
-    var y = touch.clientY - offsetY;
-    moveTo(x, y);
+    duringDrag(e.touches[0].clientX, e.touches[0].clientY);
   }, { passive: false });
 
-  el.addEventListener('touchend', function () {
-    el.classList.remove('dragging');
-  });
-
-  /* ——— Перемещение с ограничением по границам экрана ——— */
-  function moveTo(x, y) {
-    var maxX = window.innerWidth - el.offsetWidth;
-    var maxY = window.innerHeight - el.offsetHeight;
-    x = Math.max(0, Math.min(x, maxX));
-    y = Math.max(0, Math.min(y, maxY));
-    el.style.left = x + 'px';
-    el.style.top  = y + 'px';
-  }
-})();
+  document.addEventListener('touchend', endDrag);
+});
 // ===================== /HOTDOG DRAGGABLE =====================
