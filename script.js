@@ -110,73 +110,65 @@
   var el = document.getElementById('hotdogEmoji');
   if (!el) return;
 
-  var isDragging = false;
-  var startX, startY, originLeft, originTop;
-
-  // Инициализация позиции через left/top (fixed)
-  el.style.left = '16px';
-  el.style.top  = '16px';
+  // Смещение курсора внутри элемента в момент захвата
+  var offsetX = 0;
+  var offsetY = 0;
 
   /* ——— Мышь ——— */
   el.addEventListener('mousedown', function (e) {
     e.preventDefault();
-    isDragging = true;
+
+    // Текущая позиция элемента
+    var rect = el.getBoundingClientRect();
+
+    // Смещение точки клика относительно левого верхнего угла элемента
+    offsetX = e.clientX - rect.left;
+    offsetY = e.clientY - rect.top;
+
     el.classList.add('dragging');
 
-    var rect = el.getBoundingClientRect();
-    startX     = e.clientX;
-    startY     = e.clientY;
-    originLeft = rect.left;
-    originTop  = rect.top;
-
     document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup',   onMouseUp);
+    document.addEventListener('mouseup', onMouseUp);
   });
 
   function onMouseMove(e) {
-    if (!isDragging) return;
-    var dx = e.clientX - startX;
-    var dy = e.clientY - startY;
-    move(originLeft + dx, originTop + dy);
+    var x = e.clientX - offsetX;
+    var y = e.clientY - offsetY;
+    moveTo(x, y);
   }
 
   function onMouseUp() {
-    isDragging = false;
     el.classList.remove('dragging');
     document.removeEventListener('mousemove', onMouseMove);
-    document.removeEventListener('mouseup',   onMouseUp);
+    document.removeEventListener('mouseup', onMouseUp);
   }
 
   /* ——— Тач (мобильные) ——— */
   el.addEventListener('touchstart', function (e) {
     var touch = e.touches[0];
-    isDragging = true;
-    el.classList.add('dragging');
-
     var rect = el.getBoundingClientRect();
-    startX     = touch.clientX;
-    startY     = touch.clientY;
-    originLeft = rect.left;
-    originTop  = rect.top;
+
+    offsetX = touch.clientX - rect.left;
+    offsetY = touch.clientY - rect.top;
+
+    el.classList.add('dragging');
   }, { passive: true });
 
   el.addEventListener('touchmove', function (e) {
-    if (!isDragging) return;
     e.preventDefault();
     var touch = e.touches[0];
-    var dx = touch.clientX - startX;
-    var dy = touch.clientY - startY;
-    move(originLeft + dx, originTop + dy);
+    var x = touch.clientX - offsetX;
+    var y = touch.clientY - offsetY;
+    moveTo(x, y);
   }, { passive: false });
 
   el.addEventListener('touchend', function () {
-    isDragging = false;
     el.classList.remove('dragging');
   });
 
-  /* ——— Общая функция перемещения с ограничением по экрану ——— */
-  function move(x, y) {
-    var maxX = window.innerWidth  - el.offsetWidth;
+  /* ——— Перемещение с ограничением по границам экрана ——— */
+  function moveTo(x, y) {
+    var maxX = window.innerWidth - el.offsetWidth;
     var maxY = window.innerHeight - el.offsetHeight;
     x = Math.max(0, Math.min(x, maxX));
     y = Math.max(0, Math.min(y, maxY));

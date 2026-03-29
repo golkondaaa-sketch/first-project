@@ -594,18 +594,18 @@ a:hover {
   position: fixed;
   top: 16px;
   left: 16px;
-  width: 120px;
-  height: 120px;
-  font-size: 88px;
-  line-height: 120px;
+  width: 60px;
+  height: 60px;
+  font-size: 40px;
+  line-height: 60px;
   text-align: center;
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
   z-index: 9999;
-  transition: filter 0.15s ease, transform 0.15s ease;
-  will-change: transform;
   touch-action: none;
+  transition: filter 0.15s ease, transform 0.15s ease;
+  will-change: left, top;
 }
 
 #hotdogEmoji:hover {
