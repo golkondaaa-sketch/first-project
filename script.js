@@ -166,3 +166,121 @@ document.addEventListener('DOMContentLoaded', function () {
   document.addEventListener('touchend', endDrag);
 });
 // ===================== /HOTDOG DRAGGABLE =====================
+
+// ===================== ORDER FORM =====================
+(function () {
+
+  // ——— НАСТРОЙКИ SUPABASE — замени ТВОЙ_ANON_KEY на свой ключ ———
+  var SUPABASE_URL = 'https://onpajtjszwwktrlqqsbc.supabase.co';
+  var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9ucGFqdGpzend3a3RybHFxc2JjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNjk5NjMsImV4cCI6MjA5MDY0NTk2M30.eQR2G3ZVUnlx_-EZkm8BYertiTvclo5r7UUIhxohdF0';
+  var TABLE        = 'results';
+  // ———————————————————————————————————————————————————————————————
+
+  var form        = document.getElementById('orderForm');
+  var submitBtn   = document.getElementById('formSubmit');
+  var submitText  = submitBtn ? submitBtn.querySelector('.form-submit-text') : null;
+  var submitLoad  = submitBtn ? submitBtn.querySelector('.form-submit-loading') : null;
+  var errorBox    = document.getElementById('formError');
+  var overlay     = document.getElementById('popupOverlay');
+  var closeBtn    = document.getElementById('popupClose');
+
+  if (!form) return;
+
+  /* ——— Попап ——— */
+  function showPopup() {
+    overlay.classList.add('visible');
+    overlay.setAttribute('aria-hidden', 'false');
+    closeBtn.focus();
+  }
+
+  function hidePopup() {
+    overlay.classList.remove('visible');
+    overlay.setAttribute('aria-hidden', 'true');
+  }
+
+  closeBtn.addEventListener('click', hidePopup);
+
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) hidePopup();
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') hidePopup();
+  });
+
+  /* ——— Состояние кнопки ——— */
+  function setLoading(on) {
+    submitBtn.disabled = on;
+    submitText.hidden  = on;
+    submitLoad.hidden  = !on;
+  }
+
+  function showError(msg) {
+    errorBox.textContent = msg;
+  }
+
+  function clearError() {
+    errorBox.textContent = '';
+  }
+
+  /* ——— Валидация ——— */
+  function validate(data) {
+    if (!data.id)        return 'Укажите номер заказа';
+    if (!data.full_name) return 'Укажите ваше имя';
+    if (!data.hot_dot || data.hot_dot < 1) return 'Укажите количество хот-догов';
+    if (data.sauce === null) return 'Выберите соус — да или нет';
+    if (!data.phone)     return 'Укажите номер телефона';
+    return null;
+  }
+
+  /* ——— Отправка в Supabase ——— */
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    clearError();
+
+    var sauceInput = form.querySelector('input[name="sauce"]:checked');
+
+    var data = {
+      id:        form.elements['id'].value.trim(),
+      full_name: form.elements['full_name'].value.trim(),
+      hot_dot:   parseInt(form.elements['hot_dot'].value, 10) || 0,
+      sauce:     sauceInput ? sauceInput.value === 'true' : null,
+      comm:      form.elements['comm'].value.trim(),
+      phone:     form.elements['phone'].value.trim()
+    };
+
+    var err = validate(data);
+    if (err) { showError(err); return; }
+
+    setLoading(true);
+
+    fetch(SUPABASE_URL + '/rest/v1/' + TABLE, {
+      method: 'POST',
+      headers: {
+        'Content-Type':  'application/json',
+        'apikey':        SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Prefer':        'return=minimal'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(function (res) {
+      if (!res.ok) {
+        return res.json().then(function (body) {
+          throw new Error(body.message || 'Ошибка сервера: ' + res.status);
+        });
+      }
+      form.reset();
+      showPopup();
+    })
+    .catch(function (error) {
+      showError('Не удалось отправить заказ. Попробуйте ещё раз.');
+      console.error('Supabase error:', error);
+    })
+    .finally(function () {
+      setLoading(false);
+    });
+  });
+
+})();
+// ===================== /ORDER FORM =====================

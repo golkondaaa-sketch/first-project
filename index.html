@@ -185,6 +185,78 @@
             <p class="footer-col-text">Нас рекомендуют на праздники, корпоративы и уличные фестивали.</p>
           </div>
         </div>
+
+        <!-- ORDER FORM -->
+        <div class="order-form-wrapper">
+          <h3 class="order-form-title">Оставить заказ</h3>
+          <form class="order-form" id="orderForm" novalidate>
+
+            <div class="form-row">
+              <label class="form-label" for="fieldId">Номер заказа</label>
+              <input class="form-input" type="text" id="fieldId" name="id"
+                     placeholder="Например: 001" required>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label" for="fieldName">Ваше имя</label>
+              <input class="form-input" type="text" id="fieldName" name="full_name"
+                     placeholder="Как вас зовут?" required>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label" for="fieldHotdog">Количество хот-догов</label>
+              <input class="form-input" type="number" id="fieldHotdog" name="hot_dot"
+                     placeholder="1" min="1" max="99" required>
+            </div>
+
+            <div class="form-row form-row--inline">
+              <span class="form-label">Соус</span>
+              <div class="form-toggle-group">
+                <label class="form-toggle">
+                  <input type="radio" name="sauce" value="true" required>
+                  <span class="form-toggle-btn">Да</span>
+                </label>
+                <label class="form-toggle">
+                  <input type="radio" name="sauce" value="false">
+                  <span class="form-toggle-btn">Нет</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label" for="fieldComment">Комментарий к заказу</label>
+              <textarea class="form-input form-textarea" id="fieldComment" name="comm"
+                        placeholder="Пожелания, аллергии, особенности..."></textarea>
+            </div>
+
+            <div class="form-row">
+              <label class="form-label" for="fieldPhone">Номер телефона</label>
+              <input class="form-input" type="tel" id="fieldPhone" name="phone"
+                     placeholder="+7 (999) 000-00-00" required>
+            </div>
+
+            <div class="form-error" id="formError" aria-live="polite"></div>
+
+            <button class="form-submit" type="submit" id="formSubmit">
+              <span class="form-submit-text">Отправить заказ 🌭</span>
+              <span class="form-submit-loading" hidden>Отправляем...</span>
+            </button>
+
+          </form>
+        </div>
+        <!-- /ORDER FORM -->
+
+        <!-- POPUP -->
+        <div class="popup-overlay" id="popupOverlay" aria-hidden="true">
+          <div class="popup" role="dialog" aria-modal="true">
+            <div class="popup-emoji">🌭</div>
+            <h3 class="popup-title">Заказ принят!</h3>
+            <p class="popup-text">Мы уже готовим для вас. Скоро свяжемся.</p>
+            <button class="popup-close" id="popupClose">Закрыть</button>
+          </div>
+        </div>
+        <!-- /POPUP -->
+
         <div class="footer-rule" role="presentation"></div>
         <p class="footer-copy">© 2025 Мастера хот-догов. Готовим с душой.</p>
       </div>
