@@ -227,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function validate(data) {
     if (!data.id)        return 'Укажите номер заказа';
     if (!data.full_name) return 'Укажите ваше имя';
-    if (!data.hot_dot || data.hot_dot < 1) return 'Укажите количество хот-догов';
+    if (!data.hot_dog || data.hot_dog < 1) return 'Укажите количество хот-догов';
     if (data.sauce === null) return 'Выберите соус — да или нет';
     if (!data.phone)     return 'Укажите номер телефона';
     return null;
@@ -243,7 +243,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var data = {
       id:        form.elements['id'].value.trim(),
       full_name: form.elements['full_name'].value.trim(),
-      hot_dot:   parseInt(form.elements['hot_dot'].value, 10) || 0,
+      hot_dog:   parseInt(form.elements['hot_dog'].value, 10) || 0,
       sauce:     sauceInput ? sauceInput.value === 'true' : null,
       comm:      form.elements['comm'].value.trim(),
       phone:     form.elements['phone'].value.trim()
