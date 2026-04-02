@@ -592,12 +592,12 @@ a:hover {
 
 #hotdogEmoji {
   position: fixed;
-  top: 16px;
-  left: 16px;
-  width: 60px;
-  height: 60px;
-  font-size: 40px;
-  line-height: 60px;
+  top: 22px;
+  left: 22px;
+  width: 66px;
+  height: 66px;
+  font-size: 46px;
+  line-height: 66px;
   text-align: center;
   cursor: grab;
   user-select: none;
@@ -607,12 +607,12 @@ a:hover {
 }
 
 #hotdogEmoji:hover {
-  filter: drop-shadow(0 4px 12px rgba(192, 0, 26, 0.45));
+  filter: drop-shadow(0 4px 12px rgba(129, 136, 128, 0.45));
 }
 
 #hotdogEmoji.dragging {
   cursor: grabbing;
-  filter: drop-shadow(0 8px 24px rgba(192, 0, 26, 0.55));
+  filter: drop-shadow(0 8px 24px rgba(119, 124, 126, 0.55));
 }
 
 /* ===================== /HOTDOG DRAGGABLE ===================== */
