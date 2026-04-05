@@ -225,10 +225,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* ——— Валидация ——— */
   function validate(data) {
-    if (!data.id)        return 'Укажите номер заказа';
-    if (!data.full_name) return 'Укажите ваше имя';
+    if (!data.full_name) return 'Имя забыл';
     if (!data.hot_dog || data.hot_dog < 1) return 'Укажите количество хот-догов';
-    if (data.sauce === null) return 'Выберите соус — да или нет';
+    if (data.sauce === null) return 'а соус?';
     if (!data.phone)     return 'Укажите номер телефона';
     return null;
   }
