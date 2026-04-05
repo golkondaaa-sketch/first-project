@@ -241,7 +241,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var sauceInput = form.querySelector('input[name="sauce"]:checked');
 
     var data = {
-      id:        form.elements['id'].value.trim(),
       full_name: form.elements['full_name'].value.trim(),
       hot_dog:   parseInt(form.elements['hot_dog'].value, 10) || 0,
       sauce:     sauceInput ? sauceInput.value === 'true' : null,
