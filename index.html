@@ -191,20 +191,15 @@
           <h3 class="order-form-title">Оставить заказ</h3>
           <form class="order-form" id="orderForm" novalidate>
 
-            <div class="form-row">
-              <label class="form-label" for="fieldId">Номер заказа</label>
-              <input class="form-input" type="text" id="fieldId" name="id"
-                     placeholder="Введи число" required>
-            </div>
 
             <div class="form-row">
               <label class="form-label" for="fieldName">Ваше имя</label>
               <input class="form-input" type="text" id="fieldName" name="full_name"
-                     placeholder="Как звать тебя?" required>
+                     placeholder="Имя сссссююддаа" required>
             </div>
 
             <div class="form-row">
-              <label class="form-label" for="fieldHotdog">Количество хот-догов</label>
+              <label class="form-label" for="fieldHotdog">Количество хот-догов (максимальный заказ - 99 штук)</label>
               <input class="form-input" type="number" id="fieldHotdog" name="hot_dog"
                      placeholder="1" min="1" max="99" required>
             </div>
@@ -220,6 +215,7 @@
                   <input type="radio" name="sauce" value="false">
                   <span class="form-toggle-btn">Нет</span>
                 </label>
+                
               </div>
             </div>
 
